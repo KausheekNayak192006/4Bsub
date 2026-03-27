@@ -54,7 +54,7 @@ app.get('/sunscreen', async (req, res) => {
     const lng = 72.8544;
     
     // PASTE YOUR OPENUV API KEY HERE
-    const apiKey = 'openuv-wl9orrmn798c1s-io'; 
+    const apiKey = process.env.OPENUV_API_KEY;
 
     try {
         // 1. Make the API request using Axios
