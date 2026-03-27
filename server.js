@@ -30,10 +30,10 @@ app.get('/', async (req, res) => {
             needsSunscreen: needsSunscreen
         });
 
-    } } catch (error) {
-    console.error("Error fetching data:", error.message);
-    res.status(500).send(`Error: ${JSON.stringify(error.response?.data)}`);
-}
+    } catch (error) {
+        console.error("Error fetching data:", error.message);
+        res.status(500).send(`Error: ${JSON.stringify(error.response?.data)}`);
+    }
 });
 
 app.post('/submit', (req, res) => {
