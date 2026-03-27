@@ -7,7 +7,7 @@ app.set('view engine', 'ejs');
 
 // 1. Middleware to serve static files from the 'public' folder
 // When you visit http://localhost:3000, Express will automatically load public/index.html
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 // 2. Middleware to parse URL-encoded form data (Requirement 1)
 // The 'extended: true' option allows for parsing complex objects, which is standard practice.
