@@ -6,11 +6,34 @@ const port = 3001;
 app.set('views', __dirname);
 app.set('view engine', 'ejs');
 
-app.use(express.static(__dirname));
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+app.get('/', async (req, res) => {
+    const lat = 19.2952;
+    const lng = 72.8544;
+    const apiKey = process.env.OPENUV_API_KEY;
+
+    try {
+        const response = await axios.get(`https://api.openuv.io/api/v1/uv?lat=${lat}&lng=${lng}`, {
+            headers: {
+                'x-access-token': apiKey
+            }
+        });
+
+        const uvIndex = response.data.result.uv;
+        const needsSunscreen = uvIndex >= 3;
+
+        res.render('sunscreen', {
+            name: "Pranet",
+            location: "Mira Bhayandar",
+            uvIndex: uvIndex.toFixed(2),
+            needsSunscreen: needsSunscreen
+        });
+
+    } catch (error) {
+        console.error("Error fetching data:", error.message);
+        res.status(500).send("Error retrieving UV data. Check your API key or terminal logs.");
+    }
 });
 
 app.post('/submit', (req, res) => {
@@ -37,33 +60,7 @@ app.get('/profile', (req, res) => {
 });
 
 app.get('/sunscreen', async (req, res) => {
-    console.log("The sunscreen route was triggered!");
-
-    const lat = 19.2952;
-    const lng = 72.8544;
-    const apiKey = process.env.OPENUV_API_KEY;
-
-    try {
-        const response = await axios.get(`https://api.openuv.io/api/v1/uv?lat=${lat}&lng=${lng}`, {
-            headers: {
-                'x-access-token': apiKey
-            }
-        });
-
-        const uvIndex = response.data.result.uv;
-        const needsSunscreen = uvIndex >= 3;
-
-        res.render('sunscreen', {
-            name: "Pranet",
-            location: "Mira Bhayandar",
-            uvIndex: uvIndex.toFixed(2),
-            needsSunscreen: needsSunscreen
-        });
-
-    } catch (error) {
-        console.error("Error fetching data:", error.message);
-        res.status(500).send("Error retrieving UV data. Check your API key or terminal logs.");
-    }
+    res.redirect('/');
 });
 
 app.listen(port, () => {
