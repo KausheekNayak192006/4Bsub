@@ -1,9 +1,10 @@
+const path = require('path');
 const express = require('express');
 const axios = require('axios');
 const app = express();
 const port = 3001;
 
-app.set('views', __dirname);
+app.set('views', path.join(process.cwd(), ''));  // root folder since all files are there
 app.set('view engine', 'ejs');
 
 app.use(express.urlencoded({ extended: true }));
@@ -66,3 +67,10 @@ app.get('/sunscreen', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+module.exports = app; // ← add this line
+
+
+
+
+
