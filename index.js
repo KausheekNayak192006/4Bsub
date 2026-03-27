@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', async (req, res) => {
     const lat = 19.2952;
     const lng = 72.8544;
-    const apiKey = process.env.OPENUV_API_KEY;
+    const apiKey = 'openuv-1kw8jrmn8atdkz-io';
 
     try {
         const response = await axios.get(`https://api.openuv.io/api/v1/uv?lat=${lat}&lng=${lng}`, {
